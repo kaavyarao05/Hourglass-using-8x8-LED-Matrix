@@ -44,7 +44,7 @@ L51,L52,L53,L54,L55,L56,L57,L58,L59,L60,
 int rows[8]={1,2,3,4,5,6,7,8};
 int cols[8]={1,2,3,4,5,6,7,8};
 
-// x=row y=col
+
 auto getMatLeft(int x, int y, int* row, int* col) {
   x = x-1;
   y = y+1;
@@ -102,91 +102,90 @@ auto getMatDownLeft(int x, int y, int* row, int* col) {
 }
 
 
-
-
-auto getDown(Led led, int* row, int*col){
+auto getDown(int x, int y, int* row, int*col){
   int mpuAngle= mpu6050.getAngleX();
   if (mpuAngle==0){
-    getMatLeft(led.Row,led.Col,&row,&col);
+    getMatTopLeft(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==90){
-    getMatDown(led.Row,led.Col,&row,&col);
+    getMatDownLeft(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==180){
-    getMatRight(led.Row,led.Col,&row,&col);
+    getMatDownRight(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==270){
-    getMatUp(led.Row,led.Col,&row,&col);
+    getMatTopRight(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<270){
-    getMatTopLeft(led.Row,led.Col,&row,&col);
+    getMatUp(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<180){
-    getMatTopRight(led.Row,led.Col,&row,&col);
+    getMatRight(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<90){
-    getMatDownRight(led.Row,led.Col,&row,&col);
+    getMatDown(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   else{
-    getMatDownLeft(led.Row,led.Col,&row,&col);
+    getMatLeft(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
 }
 
+
 auto getDownRight(int x, int y, int* row, int*col){
   int mpuAngle= mpu6050.getAngleX();
   if (mpuAngle==0){
-    getMatTopRight(led.Row,led.Col,&row,&col);
+    getMatTopRight(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==90){
-    getMatDownRight(led.Row,led.Col,&row,&col);
+    getMatDownRight(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==180){
-    getMatDownLeft(led.Row,led.Col,&row,&col);
+    getMatDownLeft(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==270){
-    getMatTopRight(led.Row,led.Col,&row,&col);
+    getMatTopRight(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<270){
-    getMatUp(led.Row,led.Col,&row,&col);
+    getMatUp(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<180){
-    getMatRight(led.Row,led.Col,&row,&col);
+    getMatRight(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<90){
-    getMatDown(led.Row,led.Col,&row,&col);
+    getMatDown(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   else{
-    getMatRight(led.Row,led.Col,&row,&col);
+    getMatRight(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
@@ -195,151 +194,154 @@ auto getDownRight(int x, int y, int* row, int*col){
 auto getDownLeft(int x, int y, int* row, int*col){
   int mpuAngle= mpu6050.getAngleX();
   if (mpuAngle==0){
-    getMatTopLeft(led.Row,led.Col,&row,&col);
+    getMatTopLeft(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==90){
-    getMatDownLeft(led.Row,led.Col,&row,&col);
+    getMatDownLeft(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==180){
-    getMatDownRight(led.Row,led.Col,&row,&col);
+    getMatDownRight(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==270){
-    getMatTopRight(led.Row,led.Col,&row,&col);
+    getMatTopRight(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<270){
-    getMatUp(led.Row,led.Col,&row,&col);
+    getMatUp(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<180){
-    getMatRight(led.Row,led.Col,&row,&col);
+    getMatRight(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<90){
-    getMatDown(led.Row,led.Col,&row,&col);
+    getMatDown(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
   else{
-    getMatLeft(led.Row,led.Col,&row,&col);
+    getMatLeft(x,y,&row,&col);
     *row=&row;
     *col=&col;
   }
 }
 
 
-void setled(int matrix,int x,int y,bool Bool){
-  if matrix==MATRIX_A{
-    lc_a.setLed(matrix,x,y,Bool);
-  }
+void moveLed(Led led,int addr, int tox,int toy){
+  if led.matrix==MATRIX_A{
+    lc_a.setLed(MATRIX_A,led.Row,led.Col,false);
+    if addr==MATRIX_A{
+      lc_a.setLed(MATRIX_A,x,y,true);
+      led.Row=x;
+      led.Col=y;
+      led.matrix=MATRIX_A;
+    }
+    else{
+      lc_b.setLed(MATRIX_B,x,y,true);
+      led.Row=x;
+      led.Col=y;
+      led.matrix=MATRIX_B;
+    }
   else{
-    lc_b.setLed(matrix,x,y,Bool);
+    lc_b.setLed(MATRIX_B,led.Row,led.Col,false);
+    if addr==MATRIX_A{
+      lc_a.setLed(MATRIX_A,x,y,true);
+      led.Row=x;
+      led.Col=y;
+      led.matrix=MATRIX_A;
+    }
+    else{
+      lc_b.setLed(MATRIX_B,x,y,true);
+      led.Row=x;
+      led.Col=y;
+      led.matrix=MATRIX_B;
+  }
   }
 }
 
-void updateMat(int addr, int connectionx, int connectiony){
-  for (led:Led){
-        getDown(led,&x,&y)
-        int downCoordx=&x;
-        int downCoordy=&y;
-        getDownRight(led,&rx,&ry)
-        int downRCoordx=&rx;
-        int downRCoordy=&ry;
-        getDownLeft(led,&x,&y)
-        int downLCoordx=&x;
-        int downLCoordy=&y;
-        if ((downCoordx==0 && downCoordy==0)) || ((downCoordy==9 && downCoordy==9)){
+void updateMat(){
+  for (led:lightsArray){
+    getDown(led,&x,&y)
+    int downCoordx=&x;
+    int downCoordy=&y;
+    getDownRight(led,&rx,&ry)
+    int downRCoordx=&rx;
+    int downRCoordy=&ry;
+    getDownLeft(led,&lx,&ly)
+    int downLCoordx=&lx;
+    int downLCoordy=&ly;
+    // DOWN CHECK
+    if (binary_search(row.begin(), row.end(),downCoordx) && binary_search(col.begin(), col.end(),downCoordy)){
+      moveLed(led,led.matrix,downCoordx,downCoordy);
+      return;
+    }
+    else{
+      if led.matrix==MATRIX_A{
+        if(downCoordx==0 && downCoordy==0){
+          moveLed(led,MATRIX_B,8,8);
+          return;
         }
-        else {
-          if (rand() % 2)==0{
-            if ((downLCoordx==0 && downLCoordy==0)) || ((downLCoordy==9 && downLCoordy==9)){
-              if downLCoordx==0{  // to matrix B
-                setled(MATRIX_A, row, col, false);
-                setled(MATRIX_B, BconnectionX,BconnectionY, true);
-              }
-              else{
-                setled(MATRIX_B, row, col, false);
-                setled(MATRIX_A, AconnectionX,AconnectionY, true);
-              }
-          }
-            elif ((downRCoordx==0 && downRCoordy==0)) || ((downRCoordy==9 && downRCoordy==9)){
-              if ((downLCoordx==0 && downLCoordy==0)) || ((downLCoordy==9 && downLCoordy==9)){
-                if downLCoordx==0{  // to matrix B
-                  setled(MATRIX_A, row, col, false);
-                  setled(MATRIX_B, BconnectionX,BconnectionY, true);
-                }
-                else{
-                  setled(MATRIX_B, row, col, false);
-                  setled(MATRIX_A, AconnectionX,AconnectionY, true);              
-            }
-          else{
-            if ((downRCoordx==0 && downRCoordy==0)) || ((downRCoordy==9 && downRCoordy==9)){
-              if ((downLCoordx==0 && downLCoordy==0)) || ((downLCoordy==9 && downLCoordy==9)){
-                if downLCoordx==0{  // to matrix B
-                  setled(MATRIX_A, row, col, false);
-                  setled(MATRIX_B, BconnectionX,BconnectionY, true);
-                }
-                else{
-                  setled(MATRIX_B, row, col, false);
-                  setled(MATRIX_A, AconnectionX,AconnectionY, true);
-          }
-            elif ((downLCoordx==0 && downLCoordy==0)) || ((downLCoordy==9 && downLCoordy==9)){
-              if ((downLCoordx==0 && downLCoordy==0)) || ((downLCoordy==9 && downLCoordy==9)){
-                if downLCoordx==0{  // to matrix B
-                  setled(MATRIX_A, row, col, false);
-                  setled(MATRIX_B, BconnectionX,BconnectionY, true);
-                }
-                else{
-                  setled(MATRIX_B, row, col, false);
-                  setled(MATRIX_A, AconnectionX,AconnectionY, true);
-            }
-          }
-        }
-        if (binary_search(row.begin(), row.end(),downCoordx) && binary_search(col.begin(), col.end(),downCoordy)){
-          setled(MATRIX_A, row, col, false);
-          setled(MATRIX_A, downCoordx, downCoordy, true);
-          return
-        }
-        else{ 
-          if (rand() % 2)==0 {
-            if (binary_search(row.begin(), row.end(),downRCoordx) && binary_search(col.begin(), col.end(),downRCoordy)){
-              setled(MATRIX_A, row, col, false);
-              setled(MATRIX_A, downRCoordx, downRCoordy, true);
-              return;
-            }
-            else{
-                if (binary_search(row.begin(), row.end(),downLCoordx) && binary_search(col.begin(), col.end(),downLCoordy)){
-                  setled(MATRIX_A, row, col, false);
-                  setled(MATRIX_A, downLCoordx, downLCoordy, true);
-                  return;
-                }
-              }
-          } else{
-              if (binary_search(row.begin(), row.end(),downLCoordx) && binary_search(col.begin(), col.end(),downLCoordy)){
-                setled(MATRIX_A, row, col, false);
-                setled(MATRIX_A, downLCoordx, downLCoordy, true);
-                return;
-              }
-              else{
-                if (binary_search(row.begin(), row.end(),downRCoordx) && binary_search(col.begin(), col.end(),downRCoordy)){
-                  setled(MATRIX_A, row, col, false);
-                  setled(MATRIX_A, downRCoordx, downRCoordy, true);
-                  return;
-              }
-          }
       }
+      else{
+        if(downCoordx==8 && downCoordy==8){
+          moveLed(led,MATRIX_A,0,0);
+          return;
+        }
+      }
+    }
+    if (rand() % 2)==0{
+      //DOWN RIGHT
+      if (binary_search(row.begin(), row.end(),downRCoordx) && binary_search(col.begin(), col.end(),downRCoordy)){
+        moveLed(led,led.matrix,downRCoordx,downRCoordy);
+        return;
+      }
+      else{
+        if led.matrix==MATRIX_A{
+          if(downRCoordx==0 && downRCoordy==0){
+            moveLed(led,MATRIX_B,8,8);
+            return;
+          }
+        }
+        else{
+          if(downRCoordx==8 && downRCoordy==8){
+            moveLed(led,MATRIX_A,0,0);
+            return;
+          }
+        }
+      }
+    }
+    else{
+      //DOWN LEFT
+      if (binary_search(row.begin(), row.end(),downLCoordx) && binary_search(col.begin(), col.end(),downLCoordy)){
+        moveLed(led,led.matrix,downLCoordx,downLCoordy);
+        return;
+      }
+      else{
+        if led.matrix==MATRIX_A{
+          if(downLCoordx==0 && downLCoordy==0){
+            moveLed(led,MATRIX_B,8,8);
+            return;
+          }
+        }
+        else{
+          if(downLCoordx==8 && downLCoordy==8){
+            moveLed(led,MATRIX_A,0,0);
+            return;
+          }
+        }
+      }
+    }
+  }
 }
-
-
 
 void setup(){
    mpu6050.begin();
@@ -365,19 +367,5 @@ void setup(){
 void loop(){
   updateMat(MATRIX_A, AConnectionX, AConnectionY);
   updateMat(MATRIX_B, BConnectionX, BConnectionY);
+  delay(1000);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
