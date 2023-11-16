@@ -26,14 +26,20 @@ int BConnectionX=8;
 int BConnectionY=8;
 
 class Led{
-  bool on=false;
   int id;
-  int row;
-  int col;
+  int Row;
+  int Col;
   int matrix;
 }
 
-Led lightsArray[60]={};
+Led lightsArray[60]={
+L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,
+L11,L12,L13,L14,L15,L16,L17,L18,L19,L20,
+L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,
+L31,L32,L33,L34,L35,L36,L37,L38,L39,L40,
+L41,L42,L43,L44,L45,L46,L47,L48,L49,L50,
+L51,L52,L53,L54,L55,L56,L57,L58,L59,L60,
+};
 
 int rows[8]={1,2,3,4,5,6,7,8};
 int cols[8]={1,2,3,4,5,6,7,8};
@@ -98,45 +104,45 @@ auto getMatDownLeft(int x, int y, int* row, int* col) {
 
 
 
-auto getDown(int x, int y, int* row, int*col){
+auto getDown(Led led, int* row, int*col){
   int mpuAngle= mpu6050.getAngleX();
   if (mpuAngle==0){
-    getMatLeft(x,y,&row,&col);
+    getMatLeft(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==90){
-    getMatDown(x,y,&row,&col);
+    getMatDown(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==180){
-    getMatRight(x,y,&row,&col);
+    getMatRight(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==270){
-    getMatUp(x,y,&row,&col);
+    getMatUp(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<270){
-    getMatTopLeft(x,y,&row,&col);
+    getMatTopLeft(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<180){
-    getMatTopRight(x,y,&row,&col);
+    getMatTopRight(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<90){
-    getMatDownRight(x,y,&row,&col);
+    getMatDownRight(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   else{
-    getMatDownLeft(x,y,&row,&col);
+    getMatDownLeft(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
@@ -145,42 +151,42 @@ auto getDown(int x, int y, int* row, int*col){
 auto getDownRight(int x, int y, int* row, int*col){
   int mpuAngle= mpu6050.getAngleX();
   if (mpuAngle==0){
-    getMatTopRight(x,y);
+    getMatTopRight(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==90){
-    getMatDownRight(x,y);
+    getMatDownRight(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==180){
-    getMatDownLeft(x,y);
+    getMatDownLeft(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==270){
-    getMatTopRight(x,y);
+    getMatTopRight(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<270){
-    getMatUp(x,y);
+    getMatUp(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<180){
-    getMatRight(x,y);
+    getMatRight(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<90){
-    getMatDown(x,y);
+    getMatDown(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   else{
-    getMatRight(x,y);
+    getMatRight(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
@@ -189,50 +195,47 @@ auto getDownRight(int x, int y, int* row, int*col){
 auto getDownLeft(int x, int y, int* row, int*col){
   int mpuAngle= mpu6050.getAngleX();
   if (mpuAngle==0){
-    getMatTopLeft(x,y);
+    getMatTopLeft(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==90){
-    getMatDownLeft(x,y);
+    getMatDownLeft(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==180){
-    getMatDownRight(x,y);
+    getMatDownRight(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle==270){
-    getMatTopRight(x,y);
+    getMatTopRight(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<270){
-    getMatUp(x,y);
+    getMatUp(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<180){
-    getMatRight(x,y);
+    getMatRight(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   elif (mpuAngle<90){
-    getMatDown(x,y);
+    getMatDown(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
   else{
-    getMatLeft(x,y);
+    getMatLeft(led.Row,led.Col,&row,&col);
     *row=&row;
     *col=&col;
   }
 }
 
-bool isOn(row,col){
-  return 
-}
 
 void setled(int matrix,int x,int y,bool Bool){
   if matrix==MATRIX_A{
@@ -244,16 +247,14 @@ void setled(int matrix,int x,int y,bool Bool){
 }
 
 void updateMat(int addr, int connectionx, int connectiony){
-  for (row:rows){
-    for (col:cols){
-      if (isOn(row,col)){
-        getDown(row,col,&x,&y)
+  for (led:Led){
+        getDown(led,&x,&y)
         int downCoordx=&x;
         int downCoordy=&y;
-        getDownRight(row,col,&rx,&ry)
+        getDownRight(led,&rx,&ry)
         int downRCoordx=&rx;
         int downRCoordy=&ry;
-        getDownLeft(row,col,&x,&y)
+        getDownLeft(led,&x,&y)
         int downLCoordx=&x;
         int downLCoordy=&y;
         if ((downCoordx==0 && downCoordy==0)) || ((downCoordy==9 && downCoordy==9)){
@@ -336,16 +337,34 @@ void updateMat(int addr, int connectionx, int connectiony){
               }
           }
       }
-    }
-  }
 }
+
 
 
 void setup(){
    mpu6050.begin();
+   int id=1;
+   int row=1;
+   int col=1;
+  for (led:Led){
+    led.id=id;
+    led.Row=row;
+    led.Col=col;
+    led.matrix=MATRIX_A;
+    id++;
+    if row>9{
+      row++;
+    }
+    else{
+      col++;
+      row=1;
+    }
+  }
 }
 
 void loop(){
+  updateMat(MATRIX_A, AConnectionX, AConnectionY);
+  updateMat(MATRIX_B, BConnectionX, BConnectionY);
 }
 
 
