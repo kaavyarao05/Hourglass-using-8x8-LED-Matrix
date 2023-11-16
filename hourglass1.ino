@@ -8,10 +8,6 @@
 
 MPU6050 mpu6050(Wire);
 
-// Values are 260/330/400
-#define ACC_THRESHOLD_LOW -25
-#define ACC_THRESHOLD_HIGH 25
-
 // Matrix
 #define A_PIN_DATAIN 12
 #define A_PIN_CLK 11
@@ -22,12 +18,22 @@ MPU6050 mpu6050(Wire);
 #define B_PIN_LOAD 7
 
 LedControl lc_a= LedControl(A_PIN_DATAIN, A_PIN_CLK, A_PIN_LOAD, 2); 
-int AmatConnectionX=1;
-int AmatConnectionY=1;
+int AConnectionX=1;
+int AConnectionY=1;
 
 LedControl lc_b= LedControl(B_PIN_DATAIN, B_PIN_CLK, B_PIN_LOAD, 2);
-int BmatConnectionX=8;
-int BmatConnectionY=8;
+int BConnectionX=8;
+int BConnectionY=8;
+
+class Led{
+  bool on=false;
+  int id;
+  int row;
+  int col;
+  int matrix;
+}
+
+Led lightsArray[60]={};
 
 int rows[8]={1,2,3,4,5,6,7,8};
 int cols[8]={1,2,3,4,5,6,7,8};
@@ -228,59 +234,104 @@ bool isOn(row,col){
   return 
 }
 
-void updateMatA(){
+void setled(int matrix,int x,int y,bool Bool){
+  if matrix==MATRIX_A{
+    lc_a.setLed(matrix,x,y,Bool);
+  }
+  else{
+    lc_b.setLed(matrix,x,y,Bool);
+  }
+}
+
+void updateMat(int addr, int connectionx, int connectiony){
   for (row:rows){
     for (col:cols){
       if (isOn(row,col)){
-        if (row==AmatConnectionX) && (col==AmatConnectionY){
-          if mpu6050.getAngleX()==90{
-            lc_a.setLed(MATRIX_A, row, col, false);
-          }
-        }
         getDown(row,col,&x,&y)
         int downCoordx=&x;
         int downCoordy=&y;
+        getDownRight(row,col,&rx,&ry)
+        int downRCoordx=&rx;
+        int downRCoordy=&ry;
+        getDownLeft(row,col,&x,&y)
+        int downLCoordx=&x;
+        int downLCoordy=&y;
+        if ((downCoordx==0 && downCoordy==0)) || ((downCoordy==9 && downCoordy==9)){
+        }
+        else {
+          if (rand() % 2)==0{
+            if ((downLCoordx==0 && downLCoordy==0)) || ((downLCoordy==9 && downLCoordy==9)){
+              if downLCoordx==0{  // to matrix B
+                setled(MATRIX_A, row, col, false);
+                setled(MATRIX_B, BconnectionX,BconnectionY, true);
+              }
+              else{
+                setled(MATRIX_B, row, col, false);
+                setled(MATRIX_A, AconnectionX,AconnectionY, true);
+              }
+          }
+            elif ((downRCoordx==0 && downRCoordy==0)) || ((downRCoordy==9 && downRCoordy==9)){
+              if ((downLCoordx==0 && downLCoordy==0)) || ((downLCoordy==9 && downLCoordy==9)){
+                if downLCoordx==0{  // to matrix B
+                  setled(MATRIX_A, row, col, false);
+                  setled(MATRIX_B, BconnectionX,BconnectionY, true);
+                }
+                else{
+                  setled(MATRIX_B, row, col, false);
+                  setled(MATRIX_A, AconnectionX,AconnectionY, true);              
+            }
+          else{
+            if ((downRCoordx==0 && downRCoordy==0)) || ((downRCoordy==9 && downRCoordy==9)){
+              if ((downLCoordx==0 && downLCoordy==0)) || ((downLCoordy==9 && downLCoordy==9)){
+                if downLCoordx==0{  // to matrix B
+                  setled(MATRIX_A, row, col, false);
+                  setled(MATRIX_B, BconnectionX,BconnectionY, true);
+                }
+                else{
+                  setled(MATRIX_B, row, col, false);
+                  setled(MATRIX_A, AconnectionX,AconnectionY, true);
+          }
+            elif ((downLCoordx==0 && downLCoordy==0)) || ((downLCoordy==9 && downLCoordy==9)){
+              if ((downLCoordx==0 && downLCoordy==0)) || ((downLCoordy==9 && downLCoordy==9)){
+                if downLCoordx==0{  // to matrix B
+                  setled(MATRIX_A, row, col, false);
+                  setled(MATRIX_B, BconnectionX,BconnectionY, true);
+                }
+                else{
+                  setled(MATRIX_B, row, col, false);
+                  setled(MATRIX_A, AconnectionX,AconnectionY, true);
+            }
+          }
+        }
         if (binary_search(row.begin(), row.end(),downCoordx) && binary_search(col.begin(), col.end(),downCoordy)){
-          lc_a.setLed(MATRIX_A, row, col, false);
-          lc_a.setLed(MATRIX_A, downCoordx, downCoordy, true);
+          setled(MATRIX_A, row, col, false);
+          setled(MATRIX_A, downCoordx, downCoordy, true);
           return
         }
         else{ 
           if (rand() % 2)==0 {
-            getDownRight(row,col,&x,&y)
-            int downRCoordx=&x;
-            int downRCoordy=&y;
             if (binary_search(row.begin(), row.end(),downRCoordx) && binary_search(col.begin(), col.end(),downRCoordy)){
-              lc_a.setLed(MATRIX_A, row, col, false);
-              lc_a.setLed(MATRIX_A, downRCoordx, downRCoordy, true);
+              setled(MATRIX_A, row, col, false);
+              setled(MATRIX_A, downRCoordx, downRCoordy, true);
               return;
             }
             else{
-                getDownLeft(row,col,&x,&y)
-                int downLCoordx=&x;
-                int downLCoordy=&y;
                 if (binary_search(row.begin(), row.end(),downLCoordx) && binary_search(col.begin(), col.end(),downLCoordy)){
-                  lc_a.setLed(MATRIX_A, row, col, false);
-                  lc_a.setLed(MATRIX_A, downLCoordx, downLCoordy, true);
+                  setled(MATRIX_A, row, col, false);
+                  setled(MATRIX_A, downLCoordx, downLCoordy, true);
                   return;
                 }
               }
           } else{
-              getDownLeft(row,col,&x,&y)
-              int downLCoordx=&x;
-              int downLCoordy=&y;
               if (binary_search(row.begin(), row.end(),downLCoordx) && binary_search(col.begin(), col.end(),downLCoordy)){
-                lc_a.setLed(MATRIX_A, row, col, false);
-                lc_a.setLed(MATRIX_A, downLCoordx, downLCoordy, true);
+                setled(MATRIX_A, row, col, false);
+                setled(MATRIX_A, downLCoordx, downLCoordy, true);
                 return;
               }
               else{
-                getDownRight(row,col,&x,&y)
-                int downRCoordx=&x;
-                int downRCoordy=&y;
                 if (binary_search(row.begin(), row.end(),downRCoordx) && binary_search(col.begin(), col.end(),downRCoordy)){
-                  lc_a.setLed(MATRIX_A, row, col, false);
-                  lc_a.setLed(MATRIX_A, downRCoordx, downRCoordy, true);
+                  setled(MATRIX_A, row, col, false);
+                  setled(MATRIX_A, downRCoordx, downRCoordy, true);
                   return;
               }
           }
@@ -288,6 +339,7 @@ void updateMatA(){
     }
   }
 }
+
 
 void setup(){
    mpu6050.begin();
