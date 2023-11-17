@@ -235,6 +235,14 @@ auto getDownLeft(int x, int y, int* row, int*col){
   }
 }
 
+bool checkIfOccupied(int addr, int row, int col){
+  for (led:lightsArray){
+    if (led.Row==row && led.Col==col && led.matrix==addr){
+      return false;
+    }
+  }
+  return true;
+}
 
 void moveLed(Led led,int addr, int tox,int toy){
   if led.matrix==MATRIX_A{
@@ -273,16 +281,12 @@ void updateMat(){
     getDown(led,&x,&y)
     int downCoordx=&x;
     int downCoordy=&y;
-    getDownRight(led,&rx,&ry)
-    int downRCoordx=&rx;
-    int downRCoordy=&ry;
-    getDownLeft(led,&lx,&ly)
-    int downLCoordx=&lx;
-    int downLCoordy=&ly;
     // DOWN CHECK
     if (binary_search(row.begin(), row.end(),downCoordx) && binary_search(col.begin(), col.end(),downCoordy)){
-      moveLed(led,led.matrix,downCoordx,downCoordy);
-      return;
+      if checkIfOccupied(led.matrix, downCoordx, downCoordy){
+        moveLed(led,led.matrix,downCoordx,downCoordy);
+        return;
+      }
     }
     else{
       if led.matrix==MATRIX_A{
@@ -299,10 +303,18 @@ void updateMat(){
       }
     }
     if (rand() % 2)==0{
+      getDownRight(led,&rx,&ry)
+      int downRCoordx=&rx;
+      int downRCoordy=&ry;
+      getDownLeft(led,&lx,&ly)
+      int downLCoordx=&lx;
+      int downLCoordy=&ly;  
       //DOWN RIGHT
       if (binary_search(row.begin(), row.end(),downRCoordx) && binary_search(col.begin(), col.end(),downRCoordy)){
-        moveLed(led,led.matrix,downRCoordx,downRCoordy);
-        return;
+        if checkIfOccupied(led.matrix, downRCoordx, downRCoordy){
+          moveLed(led,led.matrix,downRCoordx,downRCoordy);
+          return;
+        }
       }
       else{
         if led.matrix==MATRIX_A{
@@ -322,8 +334,10 @@ void updateMat(){
     else{
       //DOWN LEFT
       if (binary_search(row.begin(), row.end(),downLCoordx) && binary_search(col.begin(), col.end(),downLCoordy)){
-        moveLed(led,led.matrix,downLCoordx,downLCoordy);
-        return;
+         if checkIfOccupied(led.matrix, downCoordx, downCoordy){
+           moveLed(led,led.matrix,downCoordx,downCoordy);
+           return;
+        }
       }
       else{
         if led.matrix==MATRIX_A{
