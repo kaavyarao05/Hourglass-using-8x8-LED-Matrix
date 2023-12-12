@@ -102,141 +102,144 @@ auto getMatDownLeft(int x, int y, int* row, int* col) {
 }
 
 
-auto getDown(int x, int y, int* row, int*col){
+auto getDown(int x, int y, int* rowout, int* colout){
+  int row,col;
   int mpuAngle= mpu6050.getAngleX();
   if (mpuAngle==0){
     getMatTopLeft(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle==90){
     getMatDownLeft(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle==180){
     getMatDownRight(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle==270){
     getMatTopRight(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle<270){
     getMatUp(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle<180){
     getMatRight(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle<90){
     getMatDown(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   else{
     getMatLeft(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
 }
 
 
-auto getDownRight(int x, int y, int* row, int*col){
+auto getDownRight(int x, int y, int* rowout, int* colout){
+  int row,col;
   int mpuAngle= mpu6050.getAngleX();
   if (mpuAngle==0){
     getMatTopRight(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle==90){
     getMatDownRight(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle==180){
     getMatDownLeft(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle==270){
     getMatTopRight(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle<270){
     getMatUp(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle<180){
     getMatRight(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle<90){
     getMatDown(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   else{
     getMatRight(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
 }
 
-auto getDownLeft(int x, int y, int* row, int*col){
+auto getDownLeft(int x, int y, int* rowout, int* colout){
+  int row,col;
   int mpuAngle= mpu6050.getAngleX();
   if (mpuAngle==0){
     getMatTopLeft(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle==90){
     getMatDownLeft(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle==180){
     getMatDownRight(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle==270){
     getMatTopRight(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle<270){
     getMatUp(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle<180){
     getMatRight(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   elif (mpuAngle<90){
     getMatDown(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
   else{
     getMatLeft(x,y,&row,&col);
-    *row=&row;
-    *col=&col;
+    *rowout=row;
+    *colout=col;
   }
 }
 
 bool checkIfOccupied(int addr, int row, int col){
-  for (led:lightsArray){
+  for (Led led:lightsArray){
     if (led.Row==row && led.Col==col && led.matrix==addr){
       return false;
     }
@@ -277,7 +280,7 @@ void moveLed(Led led,int addr, int tox,int toy){
 }
 
 void updateMat(){
-  for (led:lightsArray){
+  for (Led led:lightsArray){
     getDown(led,&x,&y)
     int downCoordx=&x;
     int downCoordy=&y;
